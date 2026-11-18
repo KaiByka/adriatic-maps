@@ -21,7 +21,7 @@ adriatic-maps/
 ├── CNAME                ← created at deploy time (charts.marespot.com)
 ├── site/                ← the static site (vanilla HTML/TS, no framework)
 │   ├── index.html
-│   ├── app/
+│   ├── fonts/           ← self-hosted Fraunces variable font (OFL 1.1)
 │   ├── img/             ← optimized chart images (committed)
 │   └── LICENSE-MANIFEST.json  ← every image + license + source URL
 └── docs/
@@ -35,4 +35,5 @@ Agents do all the coding; read `AGENTS.md` first. Sprints are small: (1) slider 
 ## Attribution (footer, all pages)
 
 - Each chart credited on-screen in its caption: author, year, source institution, license.
+- Display typeface: Fraunces (SIL Open Font License 1.1), self-hosted latin subsets in `site/fonts/` — https://github.com/undercasetype/Fraunces
 - "A MareSpot experiment — live Adriatic wind, shelter & sea temperature at [marespot.com](https://marespot.com)"
