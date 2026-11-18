@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adriatic Then & Now — Five Centuries of the Same Sea</title>
+<meta name="description" content="Twenty public-domain nautical charts of the Adriatic, from Venetian isolari of the 1500s to British Admiralty surveys of 1877, each against a satellite view of today. Drag to compare.">
+<style>
+  :root {
+    --bg: #0b1626; --panel: #101d33; --line: #1d2c47;
+    --text: #e8edf5; --muted: #8fa0b8; --accent: #d8a24a;
+    --serif: Georgia, 'Times New Roman', serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font: 16px/1.6 system-ui, -apple-system, sans-serif; min-height: 100vh; }
+  header { text-align: center; padding: 40px 16px 8px; }
+  h1 { font: italic 700 clamp(28px, 5vw, 44px)/1.15 var(--serif); letter-spacing: .01em; }
+  header p { color: var(--muted); margin-top: 8px; font-size: 15px; }
+  .timeline-wrap { padding: 20px 0 24px; }
+  .timeline { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: thin; padding: 4px 16px; justify-content: safe center; }
+  .timeline::after { content: ""; flex: 0 0 8px; }
+  .chip { flex: 0 0 auto; background: var(--panel); color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; cursor: pointer; font-size: 14px; white-space: nowrap; transition: all .2s; }
+  .chip:hover { color: var(--text); border-color: var(--accent); }
+  .chip.active { background: var(--accent); border-color: var(--accent); color: #1a1205; font-weight: 600; }
+  main { max-width: 960px; margin: 0 auto; padding: 0 16px 48px; }
+  .viewer { position: relative; width: 100%; aspect-ratio: 4/3; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); background: #000; touch-action: none; cursor: ew-resize; user-select: none; }
+  .viewer img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+  .viewer .now-layer { clip-path: inset(0 0 0 55%); }
+  .viewer.solo .now-layer { clip-path: inset(0 0 0 0); }
+  .viewer.solo { cursor: default; }
+  .handle { position: absolute; top: 0; bottom: 0; left: 55%; width: 2px; background: rgba(255,255,255,.85); pointer-events: none; }
+  .handle::after { content: "⇔"; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: var(--accent); color: #1a1205; border-radius: 50%; font-size: 18px; font-weight: 700; box-shadow: 0 2px 14px rgba(0,0,0,.5); }
+  .viewer.solo .handle { display: none; }
+  .tag { position: absolute; top: 12px; font: 600 12px/1 system-ui; letter-spacing: .12em; text-transform: uppercase; padding: 6px 10px; border-radius: 6px; background: rgba(0,0,0,.55); backdrop-filter: blur(4px); pointer-events: none; }
+  .tag.then { left: 12px; } .tag.now { right: 12px; }
+  .caption { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 22px 24px; margin-top: 14px; }
+  .caption h2 { font: italic 700 24px/1.3 var(--serif); margin-bottom: 4px; }
+  .caption .meta { color: var(--accent); font-size: 14px; margin-bottom: 10px; }
+  .caption p { color: var(--muted); font-size: 15px; }
+  .caption p + p { margin-top: 8px; }
+  .caption a { color: var(--text); }
+  .caption .src { display: block; margin-top: 12px; font-size: 13px; color: #5f7290; }
+  .nav { display: flex; justify-content: space-between; margin-top: 16px; }
+  .nav button { background: var(--panel); border: 1px solid var(--line); color: var(--muted); padding: 10px 18px; border-radius: 8px; cursor: pointer; font-size: 15px; }
+  .nav button:hover { color: var(--text); border-color: var(--accent); }
+  footer { text-align: center; padding: 28px 16px 44px; color: #5f7290; font-size: 14px; border-top: 1px solid var(--line); }
+  footer a { color: var(--muted); }
+  footer b { color: var(--muted); font-weight: 400; }
+  footer .fine { margin-top: 10px; font-size: 12px; line-height: 1.5; }
+</style>
+</head>
+<body>
+<header>
+  <h1>The Adriatic, Then &amp; Now</h1>
+  <p>Twenty public-domain charts, from Venetian isolari to orbit. Drag the handle to travel five centuries.</p>
+</header>
+
+<div class="timeline-wrap"><div class="timeline" id="timeline" role="tablist" aria-label="Choose a chart"></div></div>
+
+<main>
+  <div class="viewer" id="viewer" aria-label="Old chart versus satellite view comparison slider">
+    <img id="img-then" alt="Historical nautical chart" src="">
+    <img id="img-now" class="now-layer" alt="NASA satellite view of the Adriatic" src="img/nasa2003_sm.jpg">
+    <div class="handle" id="handle"></div>
+    <div class="tag then" id="tag-then">Then</div>
+    <div class="tag now" id="tag-now">Now</div>
+  </div>
+  <div class="caption" id="caption"></div>
+  <div class="nav">
+    <button id="prev">← Earlier</button>
+    <button id="next">Later →</button>
+  </div>
+</main>
+
+<footer>
+  <p><b>A MareSpot experiment — live Adriatic wind, shelter &amp; sea temperature at <a href="https://marespot.com">marespot.com</a></b></p>
+  <p class="fine" id="credits"></p>
+</footer>
+
+<script>
+const SCENES = [
+  {
+    id: "zara1530", year: "1530", label: "c. 1530",
+    title: "Zara and Sebenico", author: "Matteo Pagano", yearLabel: "c. 1530, Venice",
+    img: "img/zara1530_sm.jpg",
+    text: "A Venetian isolario view of Zadar and Šibenik. Isolari were the Renaissance's first travel books of the sea: the coast drawn as a sequence of recognizable towns and anchorages rather than measured geography.",
+    more: "A pilot reading this did not need coordinates. He needed to recognize Zadar's shape before nightfall.",
+    src: "Source: Wikimedia Commons, public domain",
+    page: "https://commons.wikimedia.org/wiki/File:Tuto_el_Cotado_di_Zara_e_Sebenicho.jpg"
+  },
+  {
+    id: "ragusa1560", year: "1560", label: "1560",
+    title: "Ragusa", author: "Francesco Scotti", yearLabel: "1560",
+    img: "img/ragusa1560_sm.jpg",
+    text: "Dubrovnik, then Ragusa: a merchant republic whose only road was the sea. The walls are the subject; the coastline beyond is drawn as outline, almost an afterthought.",
+    more: "Ragusan ships carried trade from the Adriatic to the Levant for centuries, and the republic outlasted Venice itself.",
+    src: "Source: Wikimedia Commons, public domain",
+    page: "https://commons.wikimedia.org/wiki/File:Ragusa_1560.jpg"
+  },
+  {
+    id: "metellus1579", year: "1579", label: "1579",
+    title: "The Croatian Coast, Centred on Zara", author: "Johannes Matalius Metellus", yearLabel: "1579, Cologne",
+    img: "img/metellus1579_sm.jpg",
+    text: "A copperplate map of the coastline centered on Zadar, engraved in Cologne for readers who would never see the sea it drew.",
+    more: "Names strung along the shore, Zara, Sebenico, Spalato, Trau, Ragusa, are the towns Venice's fleet knew by heart.",
+    src: "Source: Wikimedia Commons, public domain",
+    page: "https://commons.wikimedia.org/wiki/File:1579_map_of_the_Croatian_Coastline,_centered_on_Zadar_by_Johannes_Matalius_Metellus.jpg"
+  },
+  {
+    id: "bianco1600", year: "1600", label: "1600",
+    title: "Zara", author: "Noè Bianco", yearLabel: "1600, Venice",
+    img: "img/bianco1600_sm.jpg",
+    text: "A woodcut of Zadar from a pilgrim's guide to the Holy Land. For Venetian pilgrims, the Dalmatian coast was the first day of the journey to Jerusalem: sail east at dusk, and by morning you were past it.",
+    more: "Pilgrimage routes were the guidebook industry's first bestseller, and the coast's towns were its illustrations.",
+    src: "Source: Wikimedia Commons, public domain",
+    page: "https://commons.wikimedia.org/wiki/File:Zara_-_Bianco_Noe_-_1600.jpg"
+  },
+  {
+    id: "mercator1609", year: "1609", label: "1609",
+    title: "Sclavonia, Croatia, Bosnia cum Dalmatiae parte", author: "Gerardus Mercator", yearLabel: "edition of 1609",
+    img: "img/mercator1609_sm.jpg",
+    text: "Mercator's map of the Croatian lands, from the atlas that gave the world a new word: a projection, and a name for the whole craft of cartography.",
+    more: "The Dalmatian coast appears here as the frontier between Venice's sea and the empires behind it.",
+    src: "Source: Wikimedia Commons, public domain",
+    page: "https://commons.wikimedia.org/wiki/File:Sclavonia_Croatia_Bosnia_Dalmatia_1609.jpg"
+  },
+  {
+    id: "blaeu1645", year: "1645", label: "1645",
+    title: "Sclavonia, Croatia, Bosnia cum Dalmatiae parte", author: "Willem and Joan Blaeu", yearLabel: "1645, Amsterdam",
+    img: "img/blaeu1645_sm.jpg",
+    text: "The Blaeu firm's engraving of the Croatian lands, from the most expensive atlas of the seventeenth century. The coast's islands are beginning to look like islands.",
+    more: "Dutch publishers never sailed these waters; they bought, copied and bettered Venetian sources, and the result hung in cabinets from Stockholm to Madrid.",
+    src: "Source: Wikimedia Commons, public domain",
+    page: "https://commons.wikimedia.org/wiki/File:Blaeu_1645_-_Sclavonia_Croatia_Bosnia_cum_Dalmati%C3%A6_parte.jpg"
+  },
+  {
+    id: "jansson1657", year: "1657", label: "1657",
+    title: "The Dalmatian Coast", author: "Jan Jansson (Johannes Janssonius)", yearLabel: "1657, Amsterdam",
+    img: "img/jansson1657_sm.jpg",
+    text: "A Dutch sea-atlas chart of the Dalmatian coast, when most of it answered to Venice. Coastal towns are drawn larger than life and anchorages are named with care: sailors needed to recognize a bay, not measure it.",
+    more: "Look how much of the coast's fine structure the satellite resolves today, and how little of it mattered to a pilot who only needed a safe place to anchor by nightfall.",
+    src: "Source: Wikimedia Commons, public domain",
+    page: "https://commons.wikimedia.org/wiki/File:1657_map_of_the_Dalmatian_Coast_by_Jan_Jansson.tif"
+  },
+  {
+    id: "boschini", year: "c. 1660", label: "c. 1660",
+    title: "Dalmatia et Albania", author: "Marco Boschini", yearLabel: "mid-1600s, Venice",
+    img: "img/boschini_sm.jpg",
+    text: "A Venetian engraver's proud bird's-eye view of the Republic's sea, galleys and all. Drawn for the eye rather than for navigation, it shows the coast as a stage set of towns, bays and shipping lanes.",
+    more: "Boschini never intended precision. His Dalmatia is a portrait of possession: every inlet a claim, every galley a reminder of who ruled these waters.",
+    src: "Source: Bibliothèque nationale de France, via Wikimedia Commons, public domain",
+    page: "https://commons.wikimedia.org/wiki/File:Dalmatia_et_Albania_-_Marco_Boschini_-_btv1b5962783m.jpg"
+  },
+  {
+    id: "blaeu1663", year: "1663", label: "1663",
+    title: "Illyricum Hodiernum", author: "Joan Blaeu", yearLabel: "1663, Amsterdam",
+    img: "img/blaeu1663_sm.jpg",
+    text: "Illyricum today, as Blaeu's great atlas styled the eastern Adriatic: the Roman name revived for a Venetian world, hand-coloured in a collector's atlas.",
+    more: "Two names for one coast: Illyricum for scholars, Schiavonia for sailors. Both meant the same shoreline, from Istria to the Bay of Kotor.",
+    src: "Source: Atlas Van der Hegen ( KB National Library), via Wikimedia Commons, public domain",
+    page: "https://commons.wikimedia.org/wiki/File:Atlas_Van_der_Hagen-KW1049B12_084-ILLYRICVM_HODIERNVM,_Quod_Scriptores_communiter_SCLAVONIAM,_Itali_SCHIAVONIAM_nuncupare_solent,_in_Dalmatiam,_Croatiam,_Bosnam,_et_Slavoniam.jpg"
+  },
+  {
+    id: "cantelli1680", year: "c. 1680", label: "c. 1680",
+    title: "Dalmatia, Istria, Bosnia, Servia...", author: "Giacomo Cantelli da Vignola", yearLabel: "c. 1680, Rome",
+    img: "img/cantelli1680_sm.jpg",
+    text: "Cantelli's maps were the state of the art of their day: Dalmatia, Istria and the hinterland drawn for Rome's map trade with more interior detail than the sea powers ever needed.",
+    more: "By now the coast's geography had stopped being a secret of Venetian pilots and become a commodity sold across Europe.",
+    src: "Source: David Rumsey Map Collection, via Wikimedia Commons, public domain",
+    page: "https://commons.wikimedia.org/wiki/File:Dalmatia,_Istria,_Bosnia,_Servia,_Croatia_e_Parte_di_Schiavonia_-_descritte_da_Giacomo_Cantelli_da_Vignola_con_la_direzione_(IA_dr_dalmatia-istria-bosnia-servia-croatia-e-parte-di-schiavonia-descritte-11438131).jpg"
+  },
+  {
+    id: "isole1697", year: "1697", label: "1697",
+    title: "The Islands of Dalmatia, Western Part", author: "Vincenzo Coronelli", yearLabel: "1697, Venice",
+    img: "img/isole1697_sm.jpg",
+    text: "From the isolario of the great Venetian cartographer: the Dalmatian islands, the same archipelago where today's sailors hunt for sheltered coves. Coronelli's outlines are approximations. Islands are stretched, merged or misplaced, and the sea between them is often guessed.",
+    more: "Three centuries later we chart those coves by wind, depth and water temperature instead.",
+    src: "Source: Wikimedia Commons, public domain",
+    page: "https://commons.wikimedia.org/wiki/File:Isole_della_Dalmatia_divise_nesuoi_contadi_parte_occidentale_1697.jpg"
+  },
+  {
+    id: "quarnero1700", year: "c. 1700", label: "c. 1700",
+    title: "The Isles and Sea Between Istria and Dalmatia", author: "French chart (Bibliothèque nationale de France)", yearLabel: "c. 1700",
+    img: "img/quarnero1700_sm.jpg",
+    text: "The Kvarner gulf and its great islands, Cres and Krk, the funnel where the bora wind accelerates before pouring down the coast.",
+    more: "Any sailor who has anchored in the Kvarner knows why later charts added wind notes to soundings. The satellite sees the islands; it cannot feel the wind.",
+    src: "Source: Bibliothèque nationale de France, via Wikimedia Commons, public domain",
+    page: "https://commons.wikimedia.org/wiki/File:Carte_des_isles_et_mer_situ%C3%A9es_entre_l%27Istrie_et_la_Dalmatie,_nomm%C3%A9s_le_Quarnero_-_btv1b59641249.jpg"
+  },
+  {
+    id: "keulen1750", year: "18th c.", label: "18th c.",
+    title: "Pas-Caart of Both Coasts of the Adriatic", author: "Van Keulen publishing house", yearLabel: "18th century, Amsterdam",
+    img: "img/keulen1750_sm.jpg",
+    text: "A Dutch sea-chart of both Adriatic shores, Venice to Dalmatia, made for the merchantmen who still called the Gulf of Venice the highway of Europe's trade with the East.",
+    more: "Van Keulen sold charts the way we sell apps: continuously corrected editions, a family business running for two centuries.",
+    src: "Source: Rijksmuseum, via Wikimedia Commons, CC0",
+    page: "https://commons.wikimedia.org/wiki/File:Kaart_van_de_kusten_van_de_Adriatische_Zee_Pas-Caart_van_de_Weder_zytsche_Zee-kusten_soo_van_Italia_als_Dalmatia_en_Griecken_In_de_Golff_van_Venetien_(titel_op_object),_RP-P-1896-A-19368-3077.jpg"
+  },
+  {
+    id: "bellin1764", year: "1764", label: "1764",
+    title: "The State of Ragusa and Neighbouring Isles", author: "Jacques-Nicolas Bellin", yearLabel: "1764, Paris",
+    img: "img/bellin1764_sm.jpg",
+    text: "Bellin, chief hydrographer of the French navy, maps the last independent Croatian-speaking state on the map: the Republic of Ragusa, with its islands and the Neretva mouth.",
+    more: "French navy charts of this era still relied on Venetian surveys, so Venice's last gift to the world was the geometry of this coast.",
+    src: "Source: Bibliothèque nationale de France, via Wikimedia Commons, public domain",
+    page: "https://commons.wikimedia.org/wiki/File:Carte_de_l%27%C3%A9tat_de_Raguse_et_isles_voisines_-_(Bellin)_-_btv1b5964145g.jpg"
+  },
+  {
+    id: "zara1806", year: "1806", label: "1806",
+    title: "Zara in 1806", author: "published by Erhard, Paris", yearLabel: "1806",
+    img: "img/zara1806_sm.jpg",
+    text: "Zadar drawn for French readers in the year Napoleon's armies took the city. For a few years the Adriatic was a French lake, and its towns were mapped as imperial possessions.",
+    more: "The Illyrian Provinces lasted less than a decade, but their surveys fed every atlas that followed.",
+    src: "Source: Bibliothèque nationale de France, via Wikimedia Commons, public domain",
+    page: "https://commons.wikimedia.org/wiki/File:Zara_en_1806,_d%27apr%C3%A8s_un_plan_contemporain_-_(par_l%27abb%C3%A9_Pisani)_-_btv1b84402122.jpg"
+  },
+  {
+    id: "illyria1817", year: "1817", label: "1817",
+    title: "Administrative Map of the Illyrian Kingdom", author: "Habsburg administration", yearLabel: "1817, Ljubljana",
+    img: "img/illyria1817_sm.jpg",
+    text: "After Napoleon's fall the Habsburgs kept his administrative idea and renamed it the Kingdom of Illyria. This is a map of borders and counties, a coast governed rather than sailed.",
+    more: "The nineteenth century turned the Adriatic's maps from sea charts into state paperwork, and its fishing villages into administrative districts.",
+    src: "Source: Wikimedia Commons, public domain",
+    page: "https://commons.wikimedia.org/wiki/File:Upravni_zemljevid_Ilirskega_kraljestva_leta_1817.jpg"
+  },
+  {
+    id: "sduk1852", year: "1852", label: "1852",
+    title: "Austrian Dominions: Croatia, Dalmatia, Sclavonia", author: "Society for the Diffusion of Useful Knowledge", yearLabel: "1852, London",
+    img: "img/sduk1852_sm.jpg",
+    text: "Cheap, sober, precise: the SDUK printed maps for the Victorian middle class, and its Croatia shows a coast now firmly on the tourist's horizon rather than the pilgrim's.",
+    more: "Twenty years after this map, Thomas Cook was selling the first organized tours, and the Dalmatian coast began its second life as a destination.",
+    src: "Source: Geographicus, via Wikimedia Commons, public domain",
+    page: "https://commons.wikimedia.org/wiki/File:1852_S.D.U.K._Pocket_Map_of_the_Balkans,_Croatia,_Dalmatia,_Sclavonia_-_Geographicus_-_AustrianDominionsIII-Knight-1852.jpg"
+  },
+  {
+    id: "admiralty1877", year: "1877", label: "1877",
+    title: "Admiralty Chart No. 2711: Gulf of Quarnero", author: "British Admiralty (UK Hydrographic Office)", yearLabel: "1877, London",
+    img: "img/admiralty1877_sm.jpg",
+    text: "The Royal Navy's survey of the Kvarner, from Premantura to Dugi Otok: soundings in fathoms, lights, rocks, and the bottom's texture. By now the sea is measured.",
+    more: "This is the ancestor of every electronic chart a boat carries today, and the coves it surveys in fathoms are the same ones MareSpot charts in wind and water temperature.",
+    src: "Source: UK Hydrographic Office, via Wikimedia Commons, public domain",
+    page: "https://commons.wikimedia.org/wiki/File:Admiralty_Chart_No_2711_Adriatic_east_coast_sheet_2_Gulf_of_Quarnero_(Bay_of_Kvarner)_Cape_Promontore_(Premantura)_to_Grossa_Island_(Dugi_Otok),_Published_1877.jpg"
+  },
+  {
+    id: "zara1877", year: "1877", label: "1877 Zara",
+    title: "Admiralty Chart No. 2774: Port Zara and Approaches", author: "British Admiralty (UK Hydrographic Office)", yearLabel: "1877, London",
+    img: "img/zara1877_sm.jpg",
+    text: "The approaches to Zadar, from Dugi Otok to the Drvenik channel, as the world's dominant navy saw it: not a frontier or a picture, but a workplace of anchorages, channels and hazards.",
+    more: "Nineteenth-century steamships needed exactly what modern yachts need: sheltered water and a safe approach.",
+    src: "Source: UK Hydrographic Office, via Wikimedia Commons, public domain",
+    page: "https://commons.wikimedia.org/wiki/File:Admiralty_Chart_No_2774,_Published_1877_(Port_Zara).jpg"
+  },
+  {
+    id: "now", year: "Now", label: "Today",
+    title: "The Same Sea, From Orbit", author: "NASA satellite photograph", yearLabel: "2003, low Earth orbit",
+    img: null, solo: true,
+    text: "The anchorages the old charts promised are still there, along with a thousand coves Coronelli never drew. Today we find them with live conditions instead of dead reckoning.",
+    more: "Live Adriatic wind, shelter and sea temperature for every cove: marespot.com.",
+    src: "Source: NASA, via Wikimedia Commons, public domain",
+    page: "https://commons.wikimedia.org/wiki/File:Adriatic_Sea_-_Italy_-_Croatia_-_Montenegro_-_Bosnia_and_Herzegovina_-_Austria_-_Hungary_-_satellite_image_NASA_2003.jpg"
+  }
+];
+
+const viewer = document.getElementById("viewer");
+const imgThen = document.getElementById("img-then");
+const imgNow = document.getElementById("img-now");
+const handle = document.getElementById("handle");
+const caption = document.getElementById("caption");
+const timeline = document.getElementById("timeline");
+const tagThen = document.getElementById("tag-then");
+const CREDITS = "Charts: Wikimedia Commons, Bibliothèque nationale de France, Rijksmuseum (CC0), UK Hydrographic Office (public domain) · Satellite image: NASA (public domain) · Full credits per chart in each caption";
+document.getElementById("credits").textContent = CREDITS;
+
+let idx = 0;
+
+SCENES.forEach((s, i) => {
+  const b = document.createElement("button");
+  b.className = "chip"; b.textContent = s.label; b.dataset.i = i;
+  b.onclick = () => show(i);
+  timeline.appendChild(b);
+});
+
+function show(i) {
+  idx = (i + SCENES.length) % SCENES.length;
+  const s = SCENES[idx];
+  viewer.classList.toggle("solo", !!s.solo);
+  if (s.solo) {
+    imgThen.src = imgNow.src;
+    imgThen.alt = "NASA satellite view of the Adriatic";
+  } else {
+    imgThen.src = s.img;
+    imgThen.alt = s.title + " (" + s.author + ")";
+    setPos(55);
+  }
+  tagThen.textContent = s.solo ? "Now" : s.year;
+  caption.innerHTML =
+    "<h2>" + s.title + "</h2>" +
+    "<div class='meta'>" + s.author + " · " + s.yearLabel + "</div>" +
+    "<p>" + s.text + "</p>" +
+    (s.more ? "<p>" + s.more + "</p>" : "") +
+    "<a class='src' href='" + s.page + "' target='_blank' rel='noopener'>" + s.src + "</a>";
+  [...timeline.children].forEach((c, j) => c.classList.toggle("active", j === idx));
+  const active = timeline.children[idx];
+  if (active) active.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
+  location.hash = "chart=" + s.id;
+}
+
+function setPos(p) {
+  p = Math.max(2, Math.min(98, p));
+  handle.style.left = p + "%";
+  imgNow.style.clipPath = "inset(0 0 0 " + p + "%)";
+}
+setPos(55);
+
+let dragging = false;
+function posFromEvent(e) {
+  const r = viewer.getBoundingClientRect();
+  return ((e.clientX - r.left) / r.width) * 100;
+}
+viewer.addEventListener("pointerdown", e => {
+  if (SCENES[idx].solo) return;
+  dragging = true;
+  viewer.setPointerCapture(e.pointerId);
+  setPos(posFromEvent(e));
+});
+viewer.addEventListener("pointermove", e => { if (dragging) setPos(posFromEvent(e)); });
+viewer.addEventListener("pointerup", () => dragging = false);
+viewer.addEventListener("pointercancel", () => dragging = false);
+window.addEventListener("keydown", e => {
+  if (e.key === "ArrowLeft") show(idx - 1);
+  if (e.key === "ArrowRight") show(idx + 1);
+  if (!SCENES[idx].solo) {
+    if (e.key === "a") setPos(parseFloat(handle.style.left) - 3);
+    if (e.key === "d") setPos(parseFloat(handle.style.left) + 3);
+  }
+});
+
+document.getElementById("prev").onclick = () => show(idx - 1);
+document.getElementById("next").onclick = () => show(idx + 1);
+
+const m = location.hash.match(/chart=([\w-]+)/);
+const start = m ? SCENES.findIndex(s => s.id === m[1]) : 0;
+show(start < 0 ? 0 : start);
+</script>
+</body>
+</html>
