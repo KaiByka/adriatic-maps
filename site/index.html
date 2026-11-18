@@ -45,8 +45,22 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
+    isolation: isolate;
     background: radial-gradient(1100px 520px at 50% -8%, #14263f 0%, var(--bg) 62%) fixed, var(--bg);
     color: var(--text); font: 16px/1.6 system-ui, -apple-system, sans-serif; min-height: 100vh;
+  }
+  body::before {
+    content: ""; position: fixed; inset: -25%; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(42% 34% at 22% 24%, rgba(56,189,248,.08), transparent 70%),
+      radial-gradient(38% 30% at 78% 30%, rgba(216,162,74,.06), transparent 70%),
+      radial-gradient(50% 42% at 50% 100%, rgba(37,99,150,.16), transparent 72%);
+    animation: drift 44s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+  @keyframes drift {
+    from { transform: translate3d(-1.5%, -1%, 0) scale(1); }
+    to { transform: translate3d(1.5%, 1.5%, 0) scale(1.05); }
   }
   header { position: relative; text-align: center; padding: 30px 16px 16px; }
   .rose { position: absolute; right: max(4vw, 16px); top: 50%; transform: translateY(-50%); width: 128px; height: 128px; opacity: .13; pointer-events: none; }
@@ -64,17 +78,25 @@
     box-shadow: 0 24px 70px rgba(0,0,0,.5);
   }
   @media (max-width: 700px) { .viewer { aspect-ratio: 4/3; } }
-  .viewer img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; transition: opacity .22s ease; }
+  .viewer img { transition: opacity .22s ease; pointer-events: none; }
+  .viewer > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   #img-then { filter: sepia(.3) saturate(.85) contrast(1.06) brightness(.97); }
   .viewer.solo #img-then { filter: none; }
-  .viewer .now-layer { clip-path: inset(0 0 0 55%); }
-  .viewer.solo .now-layer { clip-path: inset(0 0 0 0); }
+  .now-wrap { position: absolute; inset: 0; clip-path: inset(0 0 0 55%); }
+  .now-wrap img { display: block; width: 100%; height: 100%; object-fit: cover; animation: kenburns 38s ease-in-out infinite alternate; }
+  @keyframes kenburns {
+    from { transform: scale(1) translate(0, 0); }
+    to { transform: scale(1.08) translate(-1.2%, -1%); }
+  }
+  .viewer.solo .now-wrap { clip-path: inset(0 0 0 0); }
   .viewer.solo { cursor: default; }
   .fx {
     position: absolute; inset: 0; pointer-events: none;
     background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.05'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
       linear-gradient(180deg, rgba(24,14,4,.22), transparent 22%),
       radial-gradient(130% 130% at 50% 42%, transparent 52%, rgba(26,15,4,.45) 100%);
+    background-size: 240px 240px, auto, auto;
     clip-path: inset(0 45% 0 0);
     transition: opacity .22s ease;
   }
@@ -105,7 +127,7 @@
     0%, 100% { margin-left: 0; } 25% { margin-left: -7px; } 75% { margin-left: 7px; }
   }
   .viewer:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-  .viewer.ease .handle, .viewer.ease .now-layer, .viewer.ease .fx { transition: left .5s cubic-bezier(.22,1,.36,1), clip-path .5s cubic-bezier(.22,1,.36,1); }
+  .viewer.ease .handle, .viewer.ease .now-wrap, .viewer.ease .fx { transition: left .5s cubic-bezier(.22,1,.36,1), clip-path .5s cubic-bezier(.22,1,.36,1); }
   .hint {
     position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
     background: rgba(6,11,20,.72); backdrop-filter: blur(6px);
@@ -172,9 +194,8 @@
   footer .fine { margin-top: 10px; font-size: 12px; line-height: 1.5; }
 
   @media (prefers-reduced-motion: reduce) {
-    .viewer.armed .grip { animation: none; }
-    .viewer::after { animation: none; }
-    .viewer.ease .handle, .viewer.ease .now-layer, .viewer.ease .fx,
+    body::before, .now-wrap img, .viewer.armed .grip, .viewer::after { animation: none; }
+    .viewer.ease .handle, .viewer.ease .now-wrap, .viewer.ease .fx,
     .viewer img, .caption, .nav button, .tl-fill { transition: none; }
   }
 </style>
@@ -196,7 +217,7 @@
 <main>
   <div class="viewer armed" id="viewer" role="slider" tabindex="0" aria-label="Comparison slider: historical chart versus satellite view" aria-valuemin="0" aria-valuemax="100" aria-valuenow="55">
     <img id="img-then" alt="Historical nautical chart" src="img/zara1530_sm.jpg" decoding="async">
-    <img id="img-now" class="now-layer" alt="NASA satellite view of the Adriatic" src="img/nasa2003_sm.jpg" fetchpriority="high" decoding="async">
+    <div class="now-wrap" id="nowwrap"><img id="img-now" alt="NASA satellite view of the Adriatic" src="img/nasa2003_sm.jpg" fetchpriority="high" decoding="async"></div>
     <div class="fx" id="fx"></div>
     <div class="handle" id="handle"><div class="grip">◂ ▸</div></div>
     <div class="tag then" id="tag-then">Then</div>
@@ -408,6 +429,7 @@ const SCENES = [
 const viewer = document.getElementById("viewer");
 const imgThen = document.getElementById("img-then");
 const imgNow = document.getElementById("img-now");
+const nowWrap = document.getElementById("nowwrap");
 const fx = document.getElementById("fx");
 const handle = document.getElementById("handle");
 const caption = document.getElementById("caption");
@@ -513,7 +535,7 @@ function setPos(p, animate) {
   pos = Math.max(2, Math.min(98, p));
   viewer.classList.toggle("ease", !!animate);
   handle.style.left = pos + "%";
-  imgNow.style.clipPath = "inset(0 0 0 " + pos + "%)";
+  nowWrap.style.clipPath = "inset(0 0 0 " + pos + "%)";
   fx.style.clipPath = "inset(0 " + (100 - pos) + "% 0 0)";
   viewer.setAttribute("aria-valuenow", Math.round(pos));
   updateHash();
