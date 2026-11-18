@@ -4,18 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Adriatic Then &amp; Now — Five Centuries of the Same Sea</title>
-<meta name="description" content="Twenty public-domain nautical charts of the Adriatic, from Venetian isolari of the 1500s to British Admiralty surveys of 1877, each against a satellite view of today. Drag to compare.">
+<meta name="description" content="Twenty public-domain nautical charts of the Adriatic (c. 1530–1877) against a NASA satellite view of today. Drag the slider to compare five centuries.">
 <meta name="theme-color" content="#0b1626">
 <meta name="google-site-verification" content="TXobfaZY7FfdrdfULA5z-FzDM37T2LCpVPcXOT2QNiE">
+<link rel="canonical" href="https://charts.marespot.com/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://charts.marespot.com/">
 <meta property="og:title" content="Adriatic Then &amp; Now — Five Centuries of the Same Sea">
 <meta property="og:description" content="Twenty public-domain nautical charts of the Adriatic, each against a satellite view of today. Drag to compare.">
 <meta property="og:image" content="https://charts.marespot.com/img/isole1697_sm.jpg">
+<meta property="og:image:width" content="960">
+<meta property="og:image:height" content="675">
+<meta property="og:image:alt" content="Vincenzo Coronelli's 1697 chart of the Dalmatian islands">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Adriatic Then &amp; Now — Five Centuries of the Same Sea">
 <meta name="twitter:description" content="Old nautical charts of the Adriatic sliding into satellite views of today. Drag to compare.">
 <meta name="twitter:image" content="https://charts.marespot.com/img/isole1697_sm.jpg">
+<meta name="twitter:image:alt" content="Vincenzo Coronelli's 1697 chart of the Dalmatian islands">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%230b1626' stroke='%23d8a24a' stroke-width='2'/%3E%3Cpath d='M6 18q5-6 10 0t10 0' stroke='%23d8a24a' fill='none' stroke-width='2'/%3E%3C/svg%3E">
 <link rel="preload" href="fonts/fraunces-italic-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/fraunces-normal-var.woff2" as="font" type="font/woff2" crossorigin>
@@ -189,6 +194,14 @@
   .nav button { background: var(--panel); border: 1px solid var(--line); color: var(--muted); padding: 10px 18px; border-radius: 8px; cursor: pointer; font-size: 15px; transition: all .2s; }
   .nav button:hover { color: var(--text); border-color: var(--accent); transform: translateY(-1px); }
 
+  .chart-index { max-width: 1080px; margin: 0 auto; padding: 8px 16px 40px; }
+  .chart-index h2 { font: italic 600 22px/1.3 var(--serif); margin-bottom: 10px; }
+  .chart-index ol { columns: 2; column-gap: 32px; padding-left: 20px; }
+  @media (max-width: 700px) { .chart-index ol { columns: 1; } }
+  .chart-index li { font-size: 14px; color: var(--muted); margin-bottom: 6px; break-inside: avoid; }
+  .chart-index a { color: var(--text); }
+  .chart-index a:hover { color: var(--accent); }
+
   footer { text-align: center; padding: 28px 16px 44px; color: #5f7290; font-size: 14px; border-top: 1px solid var(--line); }
   footer a { color: var(--muted); }
   footer b { color: var(--muted); font-weight: 400; }
@@ -200,6 +213,453 @@
     .viewer img, .caption, .nav button, .tl-fill { transition: none; }
   }
 </style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "WebSite",
+   "@id": "https://charts.marespot.com/#website",
+   "url": "https://charts.marespot.com/",
+   "name": "Adriatic Then & Now",
+   "description": "Twenty public-domain nautical charts of the Adriatic (c. 1530-1877), each against a NASA satellite view of today. Draggable before/after slider.",
+   "inLanguage": "en",
+   "publisher": {
+    "@type": "Organization",
+    "name": "MareSpot",
+    "url": "https://marespot.com"
+   }
+  },
+  {
+   "@type": "ItemList",
+   "name": "Twenty public-domain nautical charts of the Adriatic, then and now",
+   "numberOfItems": 20,
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "item": {
+      "@type": "CreativeWork",
+      "name": "Zara and Sebenico",
+      "author": {
+       "@type": "Person",
+       "name": "Matteo Pagano"
+      },
+      "dateCreated": "1530",
+      "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "image": "https://charts.marespot.com/img/zara1530_sm.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Tuto_el_Cotado_di_Zara_e_Sebenicho.jpg",
+      "description": "A Venetian isolario view of Zadar and Šibenik. Isolari were the Renaissance's first travel books of the sea: the coast drawn as a sequence of recognizable towns and anchorages rather than measured geography.",
+      "about": {
+       "@type": "Place",
+       "name": "Adriatic Sea"
+      }
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "item": {
+      "@type": "CreativeWork",
+      "name": "Ragusa",
+      "author": {
+       "@type": "Person",
+       "name": "Francesco Scotti"
+      },
+      "dateCreated": "1560",
+      "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "image": "https://charts.marespot.com/img/ragusa1560_sm.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Ragusa_1560.jpg",
+      "description": "Dubrovnik, then Ragusa: a merchant republic whose only road was the sea. The walls are the subject; the coastline beyond is drawn as outline, almost an afterthought.",
+      "about": {
+       "@type": "Place",
+       "name": "Adriatic Sea"
+      }
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 3,
+     "item": {
+      "@type": "CreativeWork",
+      "name": "The Croatian Coast, Centred on Zara",
+      "author": {
+       "@type": "Person",
+       "name": "Johannes Matalius Metellus"
+      },
+      "dateCreated": "1579",
+      "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "image": "https://charts.marespot.com/img/metellus1579_sm.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:1579_map_of_the_Croatian_Coastline,_centered_on_Zadar_by_Johannes_Matalius_Metellus.jpg",
+      "description": "A copperplate map of the coastline centered on Zadar, engraved in Cologne for readers who would never see the sea it drew.",
+      "about": {
+       "@type": "Place",
+       "name": "Adriatic Sea"
+      }
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 4,
+     "item": {
+      "@type": "CreativeWork",
+      "name": "Zara",
+      "author": {
+       "@type": "Person",
+       "name": "Noè Bianco"
+      },
+      "dateCreated": "1600",
+      "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "image": "https://charts.marespot.com/img/bianco1600_sm.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Zara_-_Bianco_Noe_-_1600.jpg",
+      "description": "A woodcut of Zadar from a pilgrim's guide to the Holy Land. For Venetian pilgrims, the Dalmatian coast was the first day of the journey to Jerusalem: sail east at dusk, and by morning you were past it.",
+      "about": {
+       "@type": "Place",
+       "name": "Adriatic Sea"
+      }
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 5,
+     "item": {
+      "@type": "CreativeWork",
+      "name": "Sclavonia, Croatia, Bosnia cum Dalmatiae parte",
+      "author": {
+       "@type": "Person",
+       "name": "Gerardus Mercator"
+      },
+      "dateCreated": "1609",
+      "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "image": "https://charts.marespot.com/img/mercator1609_sm.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Sclavonia_Croatia_Bosnia_Dalmatia_1609.jpg",
+      "description": "Mercator's map of the Croatian lands, from the atlas that gave the world a new word: a projection, and a name for the whole craft of cartography.",
+      "about": {
+       "@type": "Place",
+       "name": "Adriatic Sea"
+      }
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 6,
+     "item": {
+      "@type": "CreativeWork",
+      "name": "Sclavonia, Croatia, Bosnia cum Dalmatiae parte",
+      "author": {
+       "@type": "Person",
+       "name": "Willem and Joan Blaeu"
+      },
+      "dateCreated": "1645",
+      "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "image": "https://charts.marespot.com/img/blaeu1645_sm.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Blaeu_1645_-_Sclavonia_Croatia_Bosnia_cum_Dalmati%C3%A6_parte.jpg",
+      "description": "The Blaeu firm's engraving of the Croatian lands, from the most expensive atlas of the seventeenth century. The coast's islands are beginning to look like islands.",
+      "about": {
+       "@type": "Place",
+       "name": "Adriatic Sea"
+      }
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 7,
+     "item": {
+      "@type": "CreativeWork",
+      "name": "The Dalmatian Coast",
+      "author": {
+       "@type": "Person",
+       "name": "Jan Jansson (Johannes Janssonius)"
+      },
+      "dateCreated": "1657",
+      "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "image": "https://charts.marespot.com/img/jansson1657_sm.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:1657_map_of_the_Dalmatian_Coast_by_Jan_Jansson.tif",
+      "description": "A Dutch sea-atlas chart of the Dalmatian coast, when most of it answered to Venice. Coastal towns are drawn larger than life and anchorages are named with care: sailors needed to recognize a bay, not measure it.",
+      "about": {
+       "@type": "Place",
+       "name": "Adriatic Sea"
+      }
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 8,
+     "item": {
+      "@type": "CreativeWork",
+      "name": "Dalmatia et Albania",
+      "author": {
+       "@type": "Person",
+       "name": "Marco Boschini"
+      },
+      "dateCreated": "1660",
+      "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "image": "https://charts.marespot.com/img/boschini_sm.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Dalmatia_et_Albania_-_Marco_Boschini_-_btv1b5962783m.jpg",
+      "description": "A Venetian engraver's proud bird's-eye view of the Republic's sea, galleys and all. Drawn for the eye rather than for navigation, it shows the coast as a stage set of towns, bays and shipping lanes.",
+      "about": {
+       "@type": "Place",
+       "name": "Adriatic Sea"
+      }
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 9,
+     "item": {
+      "@type": "CreativeWork",
+      "name": "Illyricum Hodiernum",
+      "author": {
+       "@type": "Person",
+       "name": "Joan Blaeu"
+      },
+      "dateCreated": "1663",
+      "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "image": "https://charts.marespot.com/img/blaeu1663_sm.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Atlas_Van_der_Hagen-KW1049B12_084-ILLYRICVM_HODIERNVM,_Quod_Scriptores_communiter_SCLAVONIAM,_Itali_SCHIAVONIAM_nuncupare_solent,_in_Dalmatiam,_Croatiam,_Bosnam,_et_Slavoniam.jpg",
+      "description": "Illyricum today, as Blaeu's great atlas styled the eastern Adriatic: the Roman name revived for a Venetian world, hand-coloured in a collector's atlas.",
+      "about": {
+       "@type": "Place",
+       "name": "Adriatic Sea"
+      }
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 10,
+     "item": {
+      "@type": "CreativeWork",
+      "name": "Dalmatia, Istria, Bosnia, Servia...",
+      "author": {
+       "@type": "Person",
+       "name": "Giacomo Cantelli da Vignola"
+      },
+      "dateCreated": "1680",
+      "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "image": "https://charts.marespot.com/img/cantelli1680_sm.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Dalmatia,_Istria,_Bosnia,_Servia,_Croatia_e_Parte_di_Schiavonia_-_descritte_da_Giacomo_Cantelli_da_Vignola_con_la_direzione_(IA_dr_dalmatia-istria-bosnia-servia-croatia-e-parte-di-schiavonia-descritte-11438131).jpg",
+      "description": "Cantelli's maps were the state of the art of their day: Dalmatia, Istria and the hinterland drawn for Rome's map trade with more interior detail than the sea powers ever needed.",
+      "about": {
+       "@type": "Place",
+       "name": "Adriatic Sea"
+      }
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 11,
+     "item": {
+      "@type": "CreativeWork",
+      "name": "The Islands of Dalmatia, Western Part",
+      "author": {
+       "@type": "Person",
+       "name": "Vincenzo Coronelli"
+      },
+      "dateCreated": "1697",
+      "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "image": "https://charts.marespot.com/img/isole1697_sm.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Isole_della_Dalmatia_divise_nesuoi_contadi_parte_occidentale_1697.jpg",
+      "description": "From the isolario of the great Venetian cartographer: the Dalmatian islands, the same archipelago where today's sailors hunt for sheltered coves. Coronelli's outlines are approximations. Islands are stretched, merged or misplaced, and the sea between them is often guessed.",
+      "about": {
+       "@type": "Place",
+       "name": "Adriatic Sea"
+      }
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 12,
+     "item": {
+      "@type": "CreativeWork",
+      "name": "The Isles and Sea Between Istria and Dalmatia",
+      "author": {
+       "@type": "Organization",
+       "name": "French chart (Bibliothèque nationale de France)"
+      },
+      "dateCreated": "1700",
+      "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "image": "https://charts.marespot.com/img/quarnero1700_sm.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Carte_des_isles_et_mer_situ%C3%A9es_entre_l%27Istrie_et_la_Dalmatie,_nomm%C3%A9s_le_Quarnero_-_btv1b59641249.jpg",
+      "description": "The Kvarner gulf and its great islands, Cres and Krk, the funnel where the bora wind accelerates before pouring down the coast.",
+      "about": {
+       "@type": "Place",
+       "name": "Adriatic Sea"
+      }
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 13,
+     "item": {
+      "@type": "CreativeWork",
+      "name": "Pas-Caart of Both Coasts of the Adriatic",
+      "author": {
+       "@type": "Organization",
+       "name": "Van Keulen publishing house"
+      },
+      "dateCreated": "1750",
+      "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "image": "https://charts.marespot.com/img/keulen1750_sm.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Kaart_van_de_kusten_van_de_Adriatische_Zee_Pas-Caart_van_de_Weder_zytsche_Zee-kusten_soo_van_Italia_als_Dalmatia_en_Griecken_In_de_Golff_van_Venetien_(titel_op_object),_RP-P-1896-A-19368-3077.jpg",
+      "description": "A Dutch sea-chart of both Adriatic shores, Venice to Dalmatia, made for the merchantmen who still called the Gulf of Venice the highway of Europe's trade with the East.",
+      "about": {
+       "@type": "Place",
+       "name": "Adriatic Sea"
+      }
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 14,
+     "item": {
+      "@type": "CreativeWork",
+      "name": "The State of Ragusa and Neighbouring Isles",
+      "author": {
+       "@type": "Person",
+       "name": "Jacques-Nicolas Bellin"
+      },
+      "dateCreated": "1764",
+      "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "image": "https://charts.marespot.com/img/bellin1764_sm.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Carte_de_l%27%C3%A9tat_de_Raguse_et_isles_voisines_-_(Bellin)_-_btv1b5964145g.jpg",
+      "description": "Bellin, chief hydrographer of the French navy, maps the last independent Croatian-speaking state on the map: the Republic of Ragusa, with its islands and the Neretva mouth.",
+      "about": {
+       "@type": "Place",
+       "name": "Adriatic Sea"
+      }
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 15,
+     "item": {
+      "@type": "CreativeWork",
+      "name": "Zara in 1806",
+      "author": {
+       "@type": "Organization",
+       "name": "published by Erhard, Paris"
+      },
+      "dateCreated": "1806",
+      "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "image": "https://charts.marespot.com/img/zara1806_sm.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Zara_en_1806,_d%27apr%C3%A8s_un_plan_contemporain_-_(par_l%27abb%C3%A9_Pisani)_-_btv1b84402122.jpg",
+      "description": "Zadar drawn for French readers in the year Napoleon's armies took the city. For a few years the Adriatic was a French lake, and its towns were mapped as imperial possessions.",
+      "about": {
+       "@type": "Place",
+       "name": "Adriatic Sea"
+      }
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 16,
+     "item": {
+      "@type": "CreativeWork",
+      "name": "Administrative Map of the Illyrian Kingdom",
+      "author": {
+       "@type": "Organization",
+       "name": "Habsburg administration"
+      },
+      "dateCreated": "1817",
+      "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "image": "https://charts.marespot.com/img/illyria1817_sm.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Upravni_zemljevid_Ilirskega_kraljestva_leta_1817.jpg",
+      "description": "After Napoleon's fall the Habsburgs kept his administrative idea and renamed it the Kingdom of Illyria. This is a map of borders and counties, a coast governed rather than sailed.",
+      "about": {
+       "@type": "Place",
+       "name": "Adriatic Sea"
+      }
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 17,
+     "item": {
+      "@type": "CreativeWork",
+      "name": "Austrian Dominions: Croatia, Dalmatia, Sclavonia",
+      "author": {
+       "@type": "Organization",
+       "name": "Society for the Diffusion of Useful Knowledge"
+      },
+      "dateCreated": "1852",
+      "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "image": "https://charts.marespot.com/img/sduk1852_sm.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:1852_S.D.U.K._Pocket_Map_of_the_Balkans,_Croatia,_Dalmatia,_Sclavonia_-_Geographicus_-_AustrianDominionsIII-Knight-1852.jpg",
+      "description": "Cheap, sober, precise: the SDUK printed maps for the Victorian middle class, and its Croatia shows a coast now firmly on the tourist's horizon rather than the pilgrim's.",
+      "about": {
+       "@type": "Place",
+       "name": "Adriatic Sea"
+      }
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 18,
+     "item": {
+      "@type": "CreativeWork",
+      "name": "Admiralty Chart No. 2711: Gulf of Quarnero",
+      "author": {
+       "@type": "Organization",
+       "name": "British Admiralty (UK Hydrographic Office)"
+      },
+      "dateCreated": "1877",
+      "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "image": "https://charts.marespot.com/img/admiralty1877_sm.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Admiralty_Chart_No_2711_Adriatic_east_coast_sheet_2_Gulf_of_Quarnero_(Bay_of_Kvarner)_Cape_Promontore_(Premantura)_to_Grossa_Island_(Dugi_Otok),_Published_1877.jpg",
+      "description": "The Royal Navy's survey of the Kvarner, from Premantura to Dugi Otok: soundings in fathoms, lights, rocks, and the bottom's texture. By now the sea is measured.",
+      "about": {
+       "@type": "Place",
+       "name": "Adriatic Sea"
+      }
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 19,
+     "item": {
+      "@type": "CreativeWork",
+      "name": "Admiralty Chart No. 2774: Port Zara and Approaches",
+      "author": {
+       "@type": "Organization",
+       "name": "British Admiralty (UK Hydrographic Office)"
+      },
+      "dateCreated": "1877",
+      "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "image": "https://charts.marespot.com/img/zara1877_sm.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Admiralty_Chart_No_2774,_Published_1877_(Port_Zara).jpg",
+      "description": "The approaches to Zadar, from Dugi Otok to the Drvenik channel, as the world's dominant navy saw it: not a frontier or a picture, but a workplace of anchorages, channels and hazards.",
+      "about": {
+       "@type": "Place",
+       "name": "Adriatic Sea"
+      }
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 20,
+     "item": {
+      "@type": "CreativeWork",
+      "name": "The Same Sea, From Orbit",
+      "author": {
+       "@type": "Organization",
+       "name": "NASA satellite photograph"
+      },
+      "dateCreated": "2003",
+      "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "image": "https://charts.marespot.com/img/nasa2003_sm.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Adriatic_Sea_-_Italy_-_Croatia_-_Montenegro_-_Bosnia_and_Herzegovina_-_Austria_-_Hungary_-_satellite_image_NASA_2003.jpg",
+      "description": "The anchorages the old charts promised are still there, along with a thousand coves Coronelli never drew. Today we find them with live conditions instead of dead reckoning.",
+      "about": {
+       "@type": "Place",
+       "name": "Adriatic Sea"
+      }
+     }
+    }
+   ]
+  }
+ ]
+}
+</script>
 </head>
 <body>
 <header>
@@ -238,9 +698,36 @@
   </div>
 </main>
 
+<section class="chart-index" id="charts" aria-label="Index of all charts">
+  <h2>All twenty charts</h2>
+  <ol>
+    <li><a href="#chart=zara1530">Zara and Sebenico</a> — Matteo Pagano, c. 1530, Venice</li>
+    <li><a href="#chart=ragusa1560">Ragusa</a> — Francesco Scotti, 1560</li>
+    <li><a href="#chart=metellus1579">The Croatian Coast, Centred on Zara</a> — Johannes Matalius Metellus, 1579, Cologne</li>
+    <li><a href="#chart=bianco1600">Zara</a> — Noè Bianco, 1600, Venice</li>
+    <li><a href="#chart=mercator1609">Sclavonia, Croatia, Bosnia cum Dalmatiae parte</a> — Gerardus Mercator, edition of 1609</li>
+    <li><a href="#chart=blaeu1645">Sclavonia, Croatia, Bosnia cum Dalmatiae parte</a> — Willem and Joan Blaeu, 1645, Amsterdam</li>
+    <li><a href="#chart=jansson1657">The Dalmatian Coast</a> — Jan Jansson (Johannes Janssonius), 1657, Amsterdam</li>
+    <li><a href="#chart=boschini">Dalmatia et Albania</a> — Marco Boschini, mid-1600s, Venice</li>
+    <li><a href="#chart=blaeu1663">Illyricum Hodiernum</a> — Joan Blaeu, 1663, Amsterdam</li>
+    <li><a href="#chart=cantelli1680">Dalmatia, Istria, Bosnia, Servia...</a> — Giacomo Cantelli da Vignola, c. 1680, Rome</li>
+    <li><a href="#chart=isole1697">The Islands of Dalmatia, Western Part</a> — Vincenzo Coronelli, 1697, Venice</li>
+    <li><a href="#chart=quarnero1700">The Isles and Sea Between Istria and Dalmatia</a> — French chart (Bibliothèque nationale de France), c. 1700</li>
+    <li><a href="#chart=keulen1750">Pas-Caart of Both Coasts of the Adriatic</a> — Van Keulen publishing house, 18th century, Amsterdam</li>
+    <li><a href="#chart=bellin1764">The State of Ragusa and Neighbouring Isles</a> — Jacques-Nicolas Bellin, 1764, Paris</li>
+    <li><a href="#chart=zara1806">Zara in 1806</a> — published by Erhard, Paris, 1806</li>
+    <li><a href="#chart=illyria1817">Administrative Map of the Illyrian Kingdom</a> — Habsburg administration, 1817, Ljubljana</li>
+    <li><a href="#chart=sduk1852">Austrian Dominions: Croatia, Dalmatia, Sclavonia</a> — Society for the Diffusion of Useful Knowledge, 1852, London</li>
+    <li><a href="#chart=admiralty1877">Admiralty Chart No. 2711: Gulf of Quarnero</a> — British Admiralty (UK Hydrographic Office), 1877, London</li>
+    <li><a href="#chart=zara1877">Admiralty Chart No. 2774: Port Zara and Approaches</a> — British Admiralty (UK Hydrographic Office), 1877, London</li>
+    <li><a href="#chart=now">The Same Sea, From Orbit</a> — NASA satellite photograph, 2003, low Earth orbit</li>
+  </ol>
+</section>
+
 <footer>
   <p><b>A MareSpot experiment — live Adriatic wind, shelter &amp; sea temperature at <a href="https://marespot.com">marespot.com</a></b></p>
   <p class="fine" id="credits"></p>
+  <p class="fine"><a href="LICENSE-MANIFEST.json">Full license manifest (JSON)</a> · <a href="llms.txt">llms.txt</a> · <a href="sitemap.xml">sitemap</a></p>
 </footer>
 
 <script>
@@ -614,6 +1101,10 @@ const start = m ? SCENES.findIndex(s => s.id === m[1]) : 0;
 if (pm) pos = Math.max(2, Math.min(98, parseInt(pm[1], 10)));
 setPos(pos, false);
 show(start < 0 ? 0 : start);
+window.addEventListener("hashchange", () => {
+  const mm = location.hash.match(/chart=([\w-]+)/);
+  if (mm) { const i = SCENES.findIndex(s => s.id === mm[1]); if (i >= 0) show(i); }
+});
 </script>
 </body>
 </html>

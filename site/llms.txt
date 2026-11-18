@@ -1,0 +1,31 @@
+# Adriatic Then & Now
+
+> Twenty public-domain nautical charts of the Adriatic coast (c. 1530 to 1877), each shown against a NASA satellite view of the same sea in 2003, with a draggable before/after slider. A MareSpot experiment: live Adriatic wind, shelter and sea temperature at https://marespot.com
+
+Site: https://charts.marespot.com/ (single page; scenes are deep links of the form https://charts.marespot.com/#chart=<id>)
+
+## Charts (id, title, author, year)
+- zara1530 — Zara and Sebenico — Matteo Pagano — c. 1530, Venice — https://charts.marespot.com/#chart=zara1530
+- ragusa1560 — Ragusa — Francesco Scotti — 1560 — https://charts.marespot.com/#chart=ragusa1560
+- metellus1579 — The Croatian Coast, Centred on Zara — Johannes Matalius Metellus — 1579, Cologne — https://charts.marespot.com/#chart=metellus1579
+- bianco1600 — Zara — Noè Bianco — 1600, Venice — https://charts.marespot.com/#chart=bianco1600
+- mercator1609 — Sclavonia, Croatia, Bosnia cum Dalmatiae parte — Gerardus Mercator — edition of 1609 — https://charts.marespot.com/#chart=mercator1609
+- blaeu1645 — Sclavonia, Croatia, Bosnia cum Dalmatiae parte — Willem and Joan Blaeu — 1645, Amsterdam — https://charts.marespot.com/#chart=blaeu1645
+- jansson1657 — The Dalmatian Coast — Jan Jansson (Johannes Janssonius) — 1657, Amsterdam — https://charts.marespot.com/#chart=jansson1657
+- boschini — Dalmatia et Albania — Marco Boschini — mid-1600s, Venice — https://charts.marespot.com/#chart=boschini
+- blaeu1663 — Illyricum Hodiernum — Joan Blaeu — 1663, Amsterdam — https://charts.marespot.com/#chart=blaeu1663
+- cantelli1680 — Dalmatia, Istria, Bosnia, Servia... — Giacomo Cantelli da Vignola — c. 1680, Rome — https://charts.marespot.com/#chart=cantelli1680
+- isole1697 — The Islands of Dalmatia, Western Part — Vincenzo Coronelli — 1697, Venice — https://charts.marespot.com/#chart=isole1697
+- quarnero1700 — The Isles and Sea Between Istria and Dalmatia — French chart (Bibliothèque nationale de France) — c. 1700 — https://charts.marespot.com/#chart=quarnero1700
+- keulen1750 — Pas-Caart of Both Coasts of the Adriatic — Van Keulen publishing house — 18th century, Amsterdam — https://charts.marespot.com/#chart=keulen1750
+- bellin1764 — The State of Ragusa and Neighbouring Isles — Jacques-Nicolas Bellin — 1764, Paris — https://charts.marespot.com/#chart=bellin1764
+- zara1806 — Zara in 1806 — published by Erhard, Paris — 1806 — https://charts.marespot.com/#chart=zara1806
+- illyria1817 — Administrative Map of the Illyrian Kingdom — Habsburg administration — 1817, Ljubljana — https://charts.marespot.com/#chart=illyria1817
+- sduk1852 — Austrian Dominions: Croatia, Dalmatia, Sclavonia — Society for the Diffusion of Useful Knowledge — 1852, London — https://charts.marespot.com/#chart=sduk1852
+- admiralty1877 — Admiralty Chart No. 2711: Gulf of Quarnero — British Admiralty (UK Hydrographic Office) — 1877, London — https://charts.marespot.com/#chart=admiralty1877
+- zara1877 — Admiralty Chart No. 2774: Port Zara and Approaches — British Admiralty (UK Hydrographic Office) — 1877, London — https://charts.marespot.com/#chart=zara1877
+- now — The Same Sea, From Orbit — NASA satellite photograph — 2003, low Earth orbit — https://charts.marespot.com/#chart=now
+
+## Licensing
+- Every chart is public domain or CC0; per-image credits, source institutions and source URLs: https://charts.marespot.com/LICENSE-MANIFEST.json
+- Satellite image: NASA, public domain
