@@ -48,7 +48,10 @@
     background: radial-gradient(1100px 520px at 50% -8%, #14263f 0%, var(--bg) 62%) fixed, var(--bg);
     color: var(--text); font: 16px/1.6 system-ui, -apple-system, sans-serif; min-height: 100vh;
   }
-  header { text-align: center; padding: 30px 16px 16px; }
+  header { position: relative; text-align: center; padding: 30px 16px 16px; }
+  .rose { position: absolute; right: max(4vw, 16px); top: 50%; transform: translateY(-50%); width: 128px; height: 128px; opacity: .13; pointer-events: none; }
+  @media (max-width: 900px) { .rose { width: 84px; right: 12px; opacity: .1; } }
+  @media (max-width: 620px) { .rose { display: none; } }
   h1 { font: italic 600 clamp(30px, 5.4vw, 48px)/1.12 var(--serif); letter-spacing: .01em; }
   h1 em { color: var(--accent); font-style: italic; }
   header p { color: var(--muted); margin-top: 8px; font-size: 15px; }
@@ -119,15 +122,37 @@
   .viewer.solo .tag.then { display: none; }
 
   .timeline-wrap { padding: 18px 0 4px; }
-  .timeline { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: thin; padding: 4px 2px; justify-content: safe center; }
+  .timeline { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: thin; padding: 4px 2px; justify-content: safe center; position: relative; }
   .timeline::after { content: ""; flex: 0 0 6px; }
   .chip { flex: 0 0 auto; background: var(--panel); color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; cursor: pointer; font-size: 14px; white-space: nowrap; transition: all .2s; }
   .chip:hover { color: var(--text); border-color: var(--accent); }
   .chip.active { background: var(--accent); border-color: var(--accent); color: #1a1205; font-weight: 600; box-shadow: 0 0 14px rgba(216,162,74,.45); }
+  .chip .dot { display: none; }
+  .tl-fill, .tl-ticks { display: none; }
+  @media (min-width: 760px) {
+    .timeline-wrap { padding: 30px 16px 6px; }
+    .timeline { display: block; overflow: visible; height: 74px; padding: 0; }
+    .timeline::before { content: ""; position: absolute; left: 0; right: 0; top: 9px; height: 2px; background: var(--line); border-radius: 2px; }
+    .timeline::after { content: none; }
+    .tl-fill, .tl-ticks { display: block; position: absolute; inset: 0; pointer-events: none; }
+    .tl-fill { inset: auto; top: 9px; left: 0; height: 2px; width: 0; border-radius: 2px; background: linear-gradient(90deg, var(--accent-deep), var(--accent)); box-shadow: 0 0 8px rgba(216,162,74,.55); transition: width .5s cubic-bezier(.22,1,.36,1); }
+    .tl-ticks span { position: absolute; top: 3px; width: 2px; height: 14px; margin-left: -1px; background: #2a3a5c; }
+    .tl-ticks i { position: absolute; top: -17px; left: 50%; transform: translateX(-50%); font-style: normal; font-size: 10px; letter-spacing: .1em; color: #5f7290; }
+    .chip { position: absolute; top: 3px; transform: translateX(-50%); background: none; border: none; padding: 0; display: flex; flex-direction: column; align-items: center; gap: 7px; }
+    .chip .dot { display: block; width: 14px; height: 14px; border-radius: 50%; background: var(--panel); border: 2px solid #54657f; transition: all .2s; }
+    .chip .lab { font-size: 11px; color: var(--muted); white-space: nowrap; }
+    .chip:hover { color: var(--text); }
+    .chip:hover .dot { border-color: var(--accent); transform: scale(1.25); }
+    .chip.active { background: none; border: none; box-shadow: none; color: var(--text); font-weight: 600; }
+    .chip.active .dot { background: var(--accent); border-color: var(--accent); transform: scale(1.3); box-shadow: 0 0 14px rgba(216,162,74,.7); }
+    .chip.active .lab { color: var(--text); }
+  }
 
-  .caption { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 24px 26px; margin-top: 14px; transition: opacity .18s ease, transform .18s ease; }
+  .caption { position: relative; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 24px 26px; margin-top: 14px; transition: opacity .18s ease, transform .18s ease; }
+  .caption::before { content: ""; position: absolute; inset: 4px; border: 1px solid var(--line); border-radius: 10px; pointer-events: none; }
   .caption.switching { opacity: 0; transform: translateY(6px); }
-  .caption h2 { font: italic 600 clamp(22px, 3vw, 27px)/1.3 var(--serif); margin-bottom: 4px; }
+  .caption h2 { font: italic 600 clamp(22px, 3vw, 27px)/1.3 var(--serif); margin-bottom: 4px; padding-right: 96px; }
+  .stamp { position: absolute; top: 20px; right: 22px; font: 700 13px/1 system-ui; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); border: 2px solid var(--accent); border-radius: 5px; padding: 5px 9px; transform: rotate(-3deg); opacity: .85; }
   .caption .meta { color: var(--accent); font-size: 14px; margin-bottom: 12px; }
   .caption p { color: var(--muted); font-size: 15px; }
   .caption p + p { margin-top: 8px; }
@@ -149,7 +174,7 @@
     .viewer.hint .grip { animation: none; }
     .viewer::after { animation: none; }
     .viewer.ease .handle, .viewer.ease .now-layer, .viewer.ease .fx,
-    .viewer img, .caption, .nav button { transition: none; }
+    .viewer img, .caption, .nav button, .tl-fill { transition: none; }
   }
 </style>
 </head>
@@ -157,6 +182,14 @@
 <header>
   <h1>The Adriatic, <em>Then &amp; Now</em></h1>
   <p>Twenty public-domain charts, from Venetian isolari to orbit. Drag the handle to travel five centuries.</p>
+  <svg class="rose" viewBox="0 0 100 100" aria-hidden="true">
+    <g fill="none" stroke="#d8a24a" stroke-width="1.2">
+      <circle cx="50" cy="50" r="47"/>
+      <circle cx="50" cy="50" r="31"/>
+    </g>
+    <polygon fill="#d8a24a" points="50,3 55.4,37.1 82.5,17.5 62.9,44.6 97,50 62.9,55.4 82.5,82.5 55.4,62.9 50,97 44.6,62.9 17.5,82.5 37.1,55.4 3,50 37.1,44.6 17.5,17.5 44.6,37.1"/>
+    <circle cx="50" cy="50" r="4.5" fill="#d8a24a"/>
+  </svg>
 </header>
 
 <main>
@@ -385,13 +418,48 @@ document.getElementById("credits").textContent = CREDITS;
 let idx = 0;
 let pos = 55;
 
+function yearNum(s) {
+  const m = s.year.match(/\d{3,4}/);
+  if (m) return parseInt(m[0], 10);
+  if (/18th/.test(s.year)) return 1750;
+  return 2003;
+}
+function pct(y) { return Math.max(3, Math.min(97, (y - 1500) / (2003 - 1500) * 100)); }
+
+const tlFill = document.createElement("div"); tlFill.className = "tl-fill";
+const tlTicks = document.createElement("div"); tlTicks.className = "tl-ticks";
+timeline.appendChild(tlFill);
+timeline.appendChild(tlTicks);
+[1600, 1700, 1800, 1900, 2000].forEach(c => {
+  const t = document.createElement("span");
+  t.style.left = pct(c) + "%";
+  t.innerHTML = "<i>" + c + "</i>";
+  tlTicks.appendChild(t);
+});
+
 SCENES.forEach((s, i) => {
   const b = document.createElement("button");
-  b.className = "chip"; b.textContent = s.label; b.dataset.i = i;
+  b.className = "chip";
+  b.innerHTML = '<span class="dot"></span><span class="lab">' + s.label + "</span>";
+  b.title = s.year + " — " + s.title;
+  b.dataset.i = i;
+  b.style.left = pct(yearNum(s)) + "%";
   b.setAttribute("role", "tab");
   b.onclick = () => show(i);
   timeline.appendChild(b);
 });
+
+const reduceMotion = typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let lastY = yearNum(SCENES[0]);
+function countUp(el, fromY, toY, finalLabel) {
+  if (reduceMotion || Math.abs(toY - fromY) < 1) { el.textContent = finalLabel; return; }
+  const t0 = performance.now(), dur = 550;
+  (function step(t) {
+    const k = Math.min(1, (t - t0) / dur);
+    el.textContent = Math.round(fromY + (toY - fromY) * k);
+    if (k < 1) requestAnimationFrame(step); else el.textContent = finalLabel;
+  })(t0);
+}
 
 function updateHash() {
   const h = "#chart=" + SCENES[idx].id + "&pos=" + Math.round(pos);
@@ -414,15 +482,25 @@ function show(i) {
       imgThen.alt = s.title + " (" + s.author + ")";
       setPos(pos, true);
     }
-    tagThen.textContent = s.solo ? "Now" : s.year;
+    const y = yearNum(s);
+    const label = s.solo ? "Now" : s.year;
     caption.innerHTML =
+      "<span class='stamp'>" + label + "</span>" +
       "<h2>" + s.title + "</h2>" +
       "<div class='meta'>" + s.author + " · " + s.yearLabel + "</div>" +
       "<p>" + s.text + "</p>" +
       (s.more ? "<p>" + s.more + "</p>" : "") +
       "<a class='src' href='" + s.page + "' target='_blank' rel='noopener'>" + s.src + "</a>";
-    [...timeline.children].forEach((c, j) => c.classList.toggle("active", j === idx));
-    const active = timeline.children[idx];
+    const stamp = caption.querySelector(".stamp");
+    if (s.solo) { tagThen.textContent = "Now"; if (stamp) stamp.textContent = "Now"; }
+    else {
+      countUp(tagThen, lastY, y, label);
+      if (stamp) countUp(stamp, lastY, y, label);
+    }
+    lastY = y;
+    tlFill.style.width = pct(y) + "%";
+    [...timeline.querySelectorAll(".chip")].forEach((c, j) => c.classList.toggle("active", j === idx));
+    const active = timeline.querySelectorAll(".chip")[idx];
     if (active) active.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
     viewer.classList.remove("switching");
     caption.classList.remove("switching");
