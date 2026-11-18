@@ -1,0 +1,9 @@
+{
+  "name": "adriatic-maps-press-stills",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Deterministic press-still generator for charts.marespot.com. Run: npm install && node press-stills.js",
+  "dependencies": {
+    "sharp": "^0.33.5"
+  }
+}
