@@ -78,7 +78,7 @@
     box-shadow: 0 24px 70px rgba(0,0,0,.5);
   }
   @media (max-width: 700px) { .viewer { aspect-ratio: 4/3; } }
-  .viewer img { transition: opacity .22s ease; pointer-events: none; }
+  .viewer img { transition: opacity .22s ease, object-position .9s cubic-bezier(.22,1,.36,1); pointer-events: none; }
   .viewer > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   #img-then { filter: sepia(.3) saturate(.85) contrast(1.06) brightness(.97); }
   .viewer.solo #img-then { filter: none; }
@@ -441,6 +441,19 @@ document.getElementById("credits").textContent = CREDITS;
 let idx = 0;
 let pos = 55;
 
+/* object-position for the satellite layer per scene, so the "now" crop
+   frames the same stretch of coast the old chart shows (image % coords) */
+const NOW_POS = {
+  zara1530: "50% 90%", metellus1579: "50% 90%", bianco1600: "50% 90%",
+  zara1806: "50% 90%", zara1877: "50% 90%",
+  ragusa1560: "50% 100%", bellin1764: "50% 100%",
+  jansson1657: "50% 95%", isole1697: "50% 95%", sduk1852: "50% 95%", boschini: "50% 95%",
+  quarnero1700: "50% 55%", admiralty1877: "50% 55%",
+  mercator1609: "50% 72%", blaeu1645: "50% 72%", blaeu1663: "50% 72%",
+  cantelli1680: "50% 75%", illyria1817: "50% 72%", keulen1750: "50% 65%",
+  now: "50% 65%"
+};
+
 function yearNum(s) {
   const m = s.year.match(/\d{3,4}/);
   if (m) return parseInt(m[0], 10);
@@ -507,6 +520,7 @@ function show(i) {
     }
     const y = yearNum(s);
     const label = s.solo ? "Now" : s.year;
+    imgNow.style.objectPosition = NOW_POS[s.id] || "50% 72%";
     caption.innerHTML =
       "<span class='stamp'>" + label + "</span>" +
       "<h2>" + s.title + "</h2>" +
